@@ -1,7 +1,13 @@
+import { Suspense, useState } from "react";
 import { Link } from "react-router";
+import UserDetail2 from "../UserDetail2/UserDetail2";
 
 const User = ({user}) => {
     const {id, name, email, phone} = user;
+    const [showInfo, setShowInfo] = useState(false);
+
+    const userPromise = fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+        .then(res => res.json());
 
     const userStyle = {
         border : "2px solid yellow",
@@ -15,6 +21,12 @@ const User = ({user}) => {
             <p>Email : {email}</p>
             <p><small>Phone : {phone}</small></p>
             <Link to={`/users/${id}`}>Show Details</Link>
+            <button onClick={() => setShowInfo(!showInfo)}>{showInfo ? "Hide" : "Show"} Info</button>
+            {
+                showInfo && <Suspense fallback={<span>Loading...</span>}>
+                    <UserDetail2 userPromise={userPromise}/>
+                </Suspense>
+            }
         </div>
     );
 };
