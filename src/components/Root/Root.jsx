@@ -8,14 +8,14 @@ import "./Root.css"
 
 const Root = () => {
     const navigation = useNavigation();
-    const isNavigation = Boolean(navigation.location);
+    const isNavigating = Boolean(navigation.location)
     return (
         <div>
             <Header />
             <div className="root-main">
                 <Sidebar />
                 {
-                    isNavigation && <span>Loading.</span>
+                    isNavigating && <span>Loading.</span>
                 }
                 <Outlet />
             </div>
